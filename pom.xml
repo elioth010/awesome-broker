@@ -16,9 +16,6 @@
 	<properties>
 		<java.version>11</java.version>
 		<springfox.version>3.0.0</springfox.version>
-		<flyway.user>postgres</flyway.user>
-		<flyway.password>postgres</flyway.password>
-		<flyway.schemas>messaging</flyway.schemas>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -72,11 +69,6 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-maven-plugin</artifactId>
-			<version>8.5.1</version>
-		</dependency>
 
 		<!-- metadata configuration  -->
 		<dependency>
@@ -111,6 +103,11 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.5.1</version>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,5 +1,0 @@
-com/elioth/awesome/message/configuration/SwaggerConfiguration.class
-com/elioth/awesome/message/resource/Message.class
-com/elioth/awesome/message/AwesomeMessageApplication.class
-com/elioth/awesome/message/controller/MessagingController.class
-com/elioth/awesome/message/configuration/RabbitConfiguration.class
