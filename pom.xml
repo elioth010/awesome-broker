@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<springfox.version>3.0.0</springfox.version>
+		<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -49,15 +50,6 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.6</version>
 		</dependency>
-
-		<!-- build info -->
-		<dependency>
-			<groupId>pl.project13.maven</groupId>
-			<artifactId>git-commit-id-plugin</artifactId>
-			<version>4.9.9</version>
-		</dependency>
-
-
 		<!-- In Memory Development -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -95,11 +87,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.elioth.awesome.message.AwesomeMessageApplication</mainClass>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>build-info</goal>
-							<goal>build-image</goal>
+							<goal>repackage</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -108,6 +103,61 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>8.5.1</version>
+			</plugin>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>4.9.10</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<includeOnlyProperties>
+						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+					</includeOnlyProperties>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.39.1</version>
+				<configuration>
+					<verbose>true</verbose>
+					<images>
+						<image>
+							<name>com.elioth.awesome/message</name>
+							<build>
+								<contextDir>${project.basedir}</contextDir>
+								<dockerFile>${project.basedir}/docker/Dockerfile</dockerFile>
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<tags>
+									<tag>${project.version}</tag>
+								</tags>
+							</build>
+						</image>
+					</images>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
