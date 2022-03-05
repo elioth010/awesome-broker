@@ -28,6 +28,6 @@ public class SwaggerConfiguration {
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("Message broker Wiki Documentation")
-                        .url("https://github.com/elioth010/awesome-broker/README.md"));
+                        .url("https://github.com/elioth010/awesome-broker/blob/develop/README.md"));
     }
 }
