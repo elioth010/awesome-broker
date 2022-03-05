@@ -14,7 +14,7 @@ public class SwaggerConfiguration {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("springshop-public")
+                .group("messaging-public")
                 .pathsToMatch("/**")
                 .build();
     }

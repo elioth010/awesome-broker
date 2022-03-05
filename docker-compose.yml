@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  messaging:
+    container_name: awesome_messaging
+    image: com.elioth.awesome/message:latest
+    ports:
+      - "1015:1015"
+    links:
+      - "postgres:awesome_db"
+    depends_on:
+      - rabbitmq
+      - postgres
+  rabbitmq:
+    container_name: rabbit
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  postgres:
+    image: postgres:14
+    container_name: awesome_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: messaging
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - "5432:5432"
