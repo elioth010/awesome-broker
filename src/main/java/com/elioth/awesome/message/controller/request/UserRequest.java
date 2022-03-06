@@ -9,9 +9,6 @@ public class UserRequest {
     @Pattern(regexp = "^(?=[a-zA-Z0-9-_]+$)(?=.*[_-]*)[^_-].*[^_-]$", message = "username must match just any alphanumeric characters allowing \"a-zA-Z0-0_-\"")
     private String username;
 
-    public UserRequest() {
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }

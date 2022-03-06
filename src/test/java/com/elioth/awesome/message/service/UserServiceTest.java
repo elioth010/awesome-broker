@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,12 +25,12 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void testCreateUserWithNoExistingUser() {
+    void testCreateUserWithNoExistingUser() {
         final UserRequest userRequest = new UserRequest();
         userRequest.setUsername("test");
         final UserEntity user = new UserEntity();
         user.setUsername(userRequest.getUsername());
-        when(userRepository.save(eq(user))).thenReturn(getStoredUser(user));
+        when(userRepository.save(user)).thenReturn(getStoredUser(user));
         final User newUser = userService.createUser(userRequest);
         assertThat(newUser).isNotNull();
         assertThat(newUser.getUsername()).isEqualTo(userRequest.getUsername());
@@ -40,18 +39,18 @@ class UserServiceTest {
     }
 
     @Test
-    public void testCreateUserWithExistingUserName() {
+    void testCreateUserWithExistingUserName() {
         final UserRequest userRequest = new UserRequest();
         userRequest.setUsername("test");
         final UserEntity user = new UserEntity();
         user.setUsername(userRequest.getUsername());
-        when(userRepository.findByUsername(eq(userRequest.getUsername()))).thenReturn(Optional.of(getStoredUser(user)));
+        when(userRepository.findByUsername(userRequest.getUsername())).thenReturn(Optional.of(getStoredUser(user)));
         final User newUser = userService.createUser(userRequest);
         assertThat(newUser).isNull();
     }
 
     private UserEntity getStoredUser(UserEntity user) {
-        final UserEntity storedUser =  new UserEntity();
+        final UserEntity storedUser = new UserEntity();
         storedUser.setUsername(user.getUsername());
         storedUser.setCreatedAt(Instant.now());
         storedUser.setId(RANDOM_ID_GENERATOR.nextLong());

@@ -1,15 +1,36 @@
 package com.elioth.awesome.message.controller;
 
-import com.elioth.awesome.message.resource.Message;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.elioth.awesome.message.controller.exception.NoCircularMessageAllowedException;
+import com.elioth.awesome.message.controller.request.MessageSendRequest;
+import com.elioth.awesome.message.service.MessagingService;
+import java.util.Objects;
+import javax.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 public class MessagingController {
-    @GetMapping("/message")
-    @ResponseBody
-    public Message getMessage(){
-        return new Message("Hello World");
+
+    private final MessagingService messagingService;
+
+    public MessagingController(final MessagingService messagingService) {
+        this.messagingService = messagingService;
     }
+
+    @PostMapping(value = "/messages/send-message", consumes = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> sendMessage(@Valid @RequestBody final MessageSendRequest sendMessageRequest) {
+        if (Objects.equals(sendMessageRequest.getFrom(), sendMessageRequest.getTo())) {
+            throw new NoCircularMessageAllowedException();
+        }
+        messagingService.sendMessage(sendMessageRequest);
+        return ResponseEntity.accepted().build();
+    }
+
+
 }

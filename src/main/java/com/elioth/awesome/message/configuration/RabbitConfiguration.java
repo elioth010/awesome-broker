@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.validation.Valid;
-
 @Configuration
 public class RabbitConfiguration {
 
-    private String exchangeName = "broker-exchange";
+    private static final String EXCHANGE_NAME = "broker-exchange";
 
     @Value("${rabbit.host}")
     private String rabbitHost;
@@ -24,7 +22,7 @@ public class RabbitConfiguration {
     private int rabbitPort;
 
     @Bean
-    public ConnectionFactory connectionFactory () {
+    public ConnectionFactory connectionFactory() {
         return new CachingConnectionFactory("rabbitHost", rabbitPort);
     }
 
@@ -34,12 +32,12 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory){
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         return new RabbitTemplate(connectionFactory);
     }
 
     @Bean
     public Exchange brokerMessageExchange() {
-        return new TopicExchange(exchangeName);
+        return new TopicExchange(EXCHANGE_NAME);
     }
 }
