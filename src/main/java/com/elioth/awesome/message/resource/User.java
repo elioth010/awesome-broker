@@ -1,21 +1,25 @@
 package com.elioth.awesome.message.resource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.time.Instant;
 import java.util.Date;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
     public Long id;
     public String username;
-    @JsonFormat(shape= STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSXXX")
-    public Date created_at;
+    @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSXXX")
+    public Date createdAt;
 
-    public User(Long id, String username, Instant created_at) {
+    public User(Long id, String username, @JsonProperty("created_at") Instant createdAt) {
         this.id = id;
         this.username = username;
-        this.created_at = Date.from(created_at);
+        this.createdAt = Date.from(createdAt);
     }
 
     public Long getId() {
@@ -26,7 +30,7 @@ public class User {
         return username;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

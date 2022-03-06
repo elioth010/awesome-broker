@@ -34,6 +34,8 @@ class UserServiceTest {
         final User newUser = userService.createUser(userRequest);
         assertThat(newUser).isNotNull();
         assertThat(newUser.getUsername()).isEqualTo(userRequest.getUsername());
+        assertThat(newUser.getCreatedAt()).isNotNull();
+        assertThat(newUser.getId()).isNotNull();
     }
 
     @Test

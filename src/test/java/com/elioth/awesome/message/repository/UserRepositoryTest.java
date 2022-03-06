@@ -30,6 +30,7 @@ class UserRepositoryTest {
         newUser.setCreatedAt(Instant.ofEpochMilli(TEST_CREATED_MILLIS));
         final UserEntity storedUser = userRepository.save(newUser);
         assertThat(storedUser).isNotNull();
+        assertThat(storedUser.getCreatedAt()).isNotNull();
         assertThat(storedUser.getUsername()).isEqualTo(newUser.getUsername());
         assertThat(storedUser.getId()).isEqualTo(newUser.getId());
         assertThat(storedUser.getCreatedAt()).isEqualTo(newUser.getCreatedAt());
