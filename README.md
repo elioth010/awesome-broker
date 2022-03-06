@@ -29,7 +29,10 @@ Message
 ### Authentication
 This is the first proof of concept for this API we want to allow everyone to interact and use the messaging app, so we expect anybody can use it without requiring special authentication requirements. 
 
-In the future users will be required to proof they are authorized actors to interact with it using `jwt` tokens with oauth model. 
+In the future users will be required to proof they are authorized actors to interact with it using `jwt` tokens with oauth model.
+
+### Users management
+This application holds soft delete for audit purposes, so we expect in the future we can deactivate inactive users and archive the data.
 
 ### CI/CD 
 The project included a test dependencies.yml file to start up the dependencies and run the test inside a pipeline 
@@ -80,4 +83,4 @@ docker-compose -f docker-compose.yml up -d
 
 This will initialize all the dependencies all together and run the application. 
 
-Service is managing it's own data-layers. 
+Service is managing its own data-layers. 

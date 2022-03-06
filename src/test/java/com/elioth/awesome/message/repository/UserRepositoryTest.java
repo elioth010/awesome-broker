@@ -24,7 +24,7 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void testStoreUser() {
+    void testStoreUser() {
         final UserEntity newUser = new UserEntity();
         newUser.setUsername("testUser");
         newUser.setCreatedAt(Instant.ofEpochMilli(TEST_CREATED_MILLIS));
@@ -37,7 +37,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void testStoreDuplicateUser() {
+    void testStoreDuplicateUser() {
         final UserEntity newUser = new UserEntity();
         newUser.setUsername("testUser");
         newUser.setCreatedAt(Instant.ofEpochMilli(TEST_CREATED_MILLIS));

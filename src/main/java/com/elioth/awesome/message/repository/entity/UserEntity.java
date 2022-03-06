@@ -19,11 +19,17 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Generated(GenerationTime.INSERT)
     private Instant createdAt;
+
     @Column(name = "username", nullable = false, unique = true, length = 100)
     private String username;
+
+    @Column(name = "deleted", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Generated(GenerationTime.INSERT)
+    private Boolean deleted;
 
     public Long getId() {
         return id;
@@ -49,12 +55,21 @@ public class UserEntity {
         this.username = username;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserEntity{" +
                 "id=" + id +
                 ", createdAt=" + createdAt +
                 ", username='" + username + '\'' +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -63,11 +78,11 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity user = (UserEntity) o;
-        return Objects.equals(id, user.id) && Objects.equals(createdAt, user.createdAt) && Objects.equals(username, user.username);
+        return Objects.equals(id, user.id) && Objects.equals(createdAt, user.createdAt) && Objects.equals(username, user.username) && Objects.equals(deleted, user.deleted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, username);
+        return Objects.hash(id, createdAt, username, deleted);
     }
 }
