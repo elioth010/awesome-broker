@@ -60,7 +60,7 @@ public class UserControllerIT {
     @Test
     public void testStoreNonExistingUserWithInvalidLengthExpectToRejectUserCreatorConflict400() {
         final UserRequest userRequest = new UserRequest();
-        userRequest.setUsername("1");
+        userRequest.setUsername("11");
 
         final ResponseEntity<String> userCreateResponse = this.restTemplate.exchange("http://localhost:" + port + "/users", POST, new HttpEntity<>(userRequest), new ParameterizedTypeReference<>() {
         });

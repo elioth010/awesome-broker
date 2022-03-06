@@ -48,7 +48,7 @@ class UserRepositoryTest {
         userRepository.save(newUser);
         Exception exception = assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(newUser2));
         assertThat(exception).isNotNull();
-        assertThat(exception.getMessage()).contains("com.elioth.awesome.message.repository.entity.UserEntity.username");
+        assertThat(exception.getMessage()).contains("ConstraintViolationException");
     }
 
     @Test
