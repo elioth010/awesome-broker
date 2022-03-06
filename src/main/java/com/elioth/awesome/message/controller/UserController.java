@@ -1,6 +1,6 @@
 package com.elioth.awesome.message.controller;
 
-import com.elioth.awesome.message.controller.advice.DuplicateUserException;
+import com.elioth.awesome.message.controller.exception.DuplicateUserException;
 import com.elioth.awesome.message.controller.request.UserRequest;
 import com.elioth.awesome.message.resource.User;
 import com.elioth.awesome.message.service.UserService;

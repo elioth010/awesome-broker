@@ -1,22 +1,18 @@
 package com.elioth.awesome.message.controller.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRequest {
 
-    private final String username;
+    @Size(min = 4, max = 100, message = "username length must be between 4 and 100 characters long")
+    @Pattern(regexp = "^(?=[a-zA-Z0-9-_]+$)(?=.*[_-]*)[^_-].*[^_-]$", message = "username must match just any alphanumeric characters allowing \"a-zA-Z0-0_-\"")
+    private String username;
 
-    @JsonCreator
-    public UserRequest(@JsonProperty("username")
-                           @NotBlank @NotNull
-                           @Size(min = 2, max = 100, message = "Name must be between 2 and 32 characters long")
-    @Pattern(regexp = "[a-zA-Z0-9_-]")
-    final String username) {
+    public UserRequest() {
+    }
+
+    public void setUsername(String username) {
         this.username = username;
     }
 

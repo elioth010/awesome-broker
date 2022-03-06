@@ -27,7 +27,8 @@ class UserServiceTest {
 
     @Test
     public void testCreateUserWithNoExistingUser() {
-        final UserRequest userRequest = new UserRequest("test");
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("test");
         final UserEntity user = new UserEntity();
         user.setUsername(userRequest.getUsername());
         when(userRepository.save(eq(user))).thenReturn(getStoredUser(user));
@@ -40,7 +41,8 @@ class UserServiceTest {
 
     @Test
     public void testCreateUserWithExistingUserName() {
-        final UserRequest userRequest = new UserRequest("test");
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("test");
         final UserEntity user = new UserEntity();
         user.setUsername(userRequest.getUsername());
         when(userRepository.findByUsername(eq(userRequest.getUsername()))).thenReturn(Optional.of(getStoredUser(user)));

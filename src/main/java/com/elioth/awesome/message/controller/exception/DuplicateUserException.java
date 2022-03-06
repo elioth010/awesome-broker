@@ -1,4 +1,4 @@
-package com.elioth.awesome.message.controller.advice;
+package com.elioth.awesome.message.controller.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

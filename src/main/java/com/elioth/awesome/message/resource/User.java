@@ -16,10 +16,10 @@ public class User {
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd@HH:mm:ss.SSSXXX")
     public Date createdAt;
 
-    public User(Long id, String username, @JsonProperty("created_at") Instant createdAt) {
+    public User(@JsonProperty("id") Long id, @JsonProperty("name") String username, @JsonProperty("created_at") Date createdAt) {
         this.id = id;
         this.username = username;
-        this.createdAt = Date.from(createdAt);
+        this.createdAt = createdAt;
     }
 
     public Long getId() {

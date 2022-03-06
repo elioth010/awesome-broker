@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -28,7 +29,8 @@ public class UserControllerIT {
 
     @Test
     public void testStoreNonExistingUserExpectToCreated201() {
-        final UserRequest userRequest = new UserRequest("elioth1");
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("elioth1");
 
         final ResponseEntity<User> userCreateResponse = this.restTemplate.exchange("http://localhost:" + port + "/users", POST, new HttpEntity<>(userRequest), new ParameterizedTypeReference<>() {
         });
@@ -38,8 +40,9 @@ public class UserControllerIT {
     }
 
     @Test
-    public void testStoreNonExistingUserExpectToRejectUserCreatorConflict409() {
-        final UserRequest userRequest = new UserRequest("elioth");
+    public void testStoreExistingUserExpectToRejectUserCreatorConflict409() {
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("elioth");
 
         final ResponseEntity<User> userCreateResponse = this.restTemplate.exchange("http://localhost:" + port + "/users", POST, new HttpEntity<>(userRequest), new ParameterizedTypeReference<>() {
         });
@@ -54,5 +57,25 @@ public class UserControllerIT {
         assertThat(userCreateResponseDuplicated.getBody()).contains("User already exists");
     }
 
+    @Test
+    public void testStoreNonExistingUserWithInvalidLengthExpectToRejectUserCreatorConflict400() {
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("1");
 
+        final ResponseEntity<String> userCreateResponse = this.restTemplate.exchange("http://localhost:" + port + "/users", POST, new HttpEntity<>(userRequest), new ParameterizedTypeReference<>() {
+        });
+        assertThat(userCreateResponse.getStatusCode()).isEqualTo(BAD_REQUEST);
+        assertThat(userCreateResponse.getBody()).contains("username length must be between 4 and 100 characters long");
+    }
+
+    @Test
+    public void testStoreNonExistingUserWithBadPatternInsideExpectToRejectUserCreatorConflict400() {
+        final UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("elioth$$$$");
+
+        final ResponseEntity<String> userCreateResponse = this.restTemplate.exchange("http://localhost:" + port + "/users", POST, new HttpEntity<>(userRequest), new ParameterizedTypeReference<>() {
+        });
+        assertThat(userCreateResponse.getStatusCode()).isEqualTo(BAD_REQUEST);
+        assertThat(userCreateResponse.getBody()).contains("username must match just any alphanumeric characters");
+    }
 }

@@ -4,6 +4,7 @@ import com.elioth.awesome.message.controller.request.UserRequest;
 import com.elioth.awesome.message.repository.UserRepository;
 import com.elioth.awesome.message.repository.entity.UserEntity;
 import com.elioth.awesome.message.resource.User;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +25,8 @@ public class UserService {
             final UserEntity newUser = new UserEntity();
             newUser.setUsername(requestedUsername);
             final UserEntity storedUser = userRepository.save(newUser);
-            return new User(storedUser.getId(), storedUser.getUsername(), storedUser.getCreatedAt());
+            final Date createdAt = storedUser.getCreatedAt() != null ? Date.from(storedUser.getCreatedAt()) : new Date();
+            return new User(storedUser.getId(), storedUser.getUsername(), createdAt);
         }
         return null;
     }
