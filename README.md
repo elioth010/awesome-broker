@@ -81,6 +81,14 @@ docker-compose -f docker/test/dependencies.yml up -d
 This will initialize the datalayer dependencies, under localhost with default ports.
 Once you are ready to run the application make sure add the profile via JVM argument `-Dspring.profiles.active=dev` as argument if you run from `mvn spring-boot:run` or either `AwesomeMessageApplication` from run configurations in the IDE.
 
+The application uses h2 in memory for testing same as RabbitMocks for MessagingIT bean needs to be overridden
+
+#### Postman
+To test the API you will find a postman collection in root folder you can import it and manage your self to run the collection in order test all the required scenarios.
+
+#### Self Document
+The API uses Swagger and OpenAPI3 to build the documentation each endpoint must be updated with the proper annotations if new  
+
 #### Production Ready
 
 The application is configured production ready use maven plugins to build the code and create the docker image required to run the application. 
@@ -97,3 +105,10 @@ docker-compose -f docker-compose.yml up -d
 This will initialize all the dependencies all together and run the application. 
 
 Service is managing its own data-layers. 
+
+
+#### Properties 
+This project takes advantage of Spring profiles to manage different configurations based on the scenario
++ default (prod ready) 
++ dev (set hosts to localhost)
++ test (uses h2 in memory and JPA autogenerate entities and tables)
