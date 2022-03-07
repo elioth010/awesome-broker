@@ -8,6 +8,7 @@ import com.elioth.awesome.message.repository.entity.UserEntity;
 import com.elioth.awesome.message.resource.Message;
 import com.elioth.awesome.message.resource.User;
 import java.util.Optional;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +32,7 @@ public class MessagingService {
 
         final MessageEntity message = prepareMessageToStore(fromUser.get(), toUser.get(), messageSendRequest.getMessage());
         final MessageEntity storedMessage = messageRepository.save(message);
-        return new Message(storedMessage.getMessage(), storedMessage.getFromUser().getUsername(), storedMessage.getToUser().getUsername());
+        return new Message(storedMessage.getMessage(), String.valueOf(storedMessage.getFromUser().getId()), String.valueOf(storedMessage.getToUser().getId()));
     }
 
     private MessageEntity prepareMessageToStore(final User fromUser, final User toUser, final String messageText) {

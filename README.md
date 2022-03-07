@@ -34,6 +34,19 @@ In the future users will be required to proof they are authorized actors to inte
 ### Users management
 This application holds soft delete for audit purposes, so we expect in the future we can deactivate inactive users and archive the data.
 
+### Session groups
+This application will deliver the messages even if users doesn't exist of course it will send messages to DL but that's fine TEXT message doesn't validate receiver
+before sending the message, but this can be improved from consumers creating a session where a chat session checks if users exists prior starting the message exchange.
+
+### Performance 
+Allow resources to be paginated default support is enabled in JPA in repositories
+
+### Asynchronous Handling
+RabbitMQ is a message broker to process this messages, what should be implemented next: 
+- Exponential Backoff
+- Better Error Handling
+- Consumers may want to use a chat session (websockets) to pull messages processed withing the session
+
 ### CI/CD 
 The project included a test dependencies.yml file to start up the dependencies and run the test inside a pipeline 
 Jenkins, Travis, Bamboo can be a good fit for it, pipeline must deploy the docker image to the docker registry repository.
