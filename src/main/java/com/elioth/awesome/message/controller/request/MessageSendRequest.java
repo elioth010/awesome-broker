@@ -1,9 +1,10 @@
 package com.elioth.awesome.message.controller.request;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class MessageSendRequest {
+public class MessageSendRequest implements Serializable {
 
     @NotBlank
     private String from;
