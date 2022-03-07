@@ -1,0 +1,586 @@
+{
+	"info": {
+		"_postman_id": "2c0f002e-3cd1-450b-a0fd-830386290c5c",
+		"name": "awesome-messaging",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_user_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify user created correctly\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_user_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify user created correctly\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "attempt_create_duplicated_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify duplicated users are not allowed\", function() {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "attempt_create_invalid_username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify invalid usernames are not allowed\", function() {",
+							"    pm.response.to.have.status(400);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.username).to.contains(\"username must match just any alphanumeric\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user2%%%%\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "attempt_create_invalid_username_lenght",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify invalid usernames are not allowed\", function() {",
+							"    pm.response.to.have.status(400);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.username).to.contains(\"username length must be between\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"us\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_message_to_existing_users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"user1\",\n    \"to\": \"user2\",\n    \"message\": \"Hello World\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/messages/send-message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"messages",
+						"send-message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_message_to_existing_users_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"user1\",\n    \"to\": \"user2\",\n    \"message\": \"Hello World 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/messages/send-message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"messages",
+						"send-message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "attempt_send_message_to_same_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(406);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.message).to.contains(\"Users are not allowed to send messages to themselves\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"user1\",\n    \"to\": \"user1\",\n    \"message\": \"Hello World\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/messages/send-message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"messages",
+						"send-message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list_sent_messages_for_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.length).to.equals(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:1015/users/1/messages?target=SENT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users",
+						"1",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "target",
+							"value": "SENT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list_received_messages_for_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.length).to.equals(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:1015/users/1/messages?target=RECEIVED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users",
+						"1",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "target",
+							"value": "RECEIVED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_message_to_existing_users_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"user2\",\n    \"to\": \"user1\",\n    \"message\": \"Hello World 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1015/messages/send-message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"messages",
+						"send-message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list_received_messages_for_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Message delivery request accepted\", function() {",
+							"    pm.response.to.have.status(200);",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.length).to.equals(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:1015/users/1/messages?target=RECEIVED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1015",
+					"path": [
+						"users",
+						"1",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "target",
+							"value": "RECEIVED"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
