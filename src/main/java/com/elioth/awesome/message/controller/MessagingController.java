@@ -2,7 +2,7 @@ package com.elioth.awesome.message.controller;
 
 import com.elioth.awesome.message.controller.exception.NoCircularMessageAllowedException;
 import com.elioth.awesome.message.controller.request.MessageSendRequest;
-import com.elioth.awesome.message.service.MessagingService;
+import com.elioth.awesome.message.producers.MessageDeliveryProducer;
 import java.util.Objects;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class MessagingController {
 
-    private final MessagingService messagingService;
+    private final MessageDeliveryProducer messagingProducer;
 
-    public MessagingController(final MessagingService messagingService) {
-        this.messagingService = messagingService;
+    public MessagingController(final MessageDeliveryProducer messagingProducer) {
+        this.messagingProducer = messagingProducer;
     }
 
     @PostMapping(value = "/messages/send-message", consumes = APPLICATION_JSON_VALUE)
@@ -28,7 +28,8 @@ public class MessagingController {
         if (Objects.equals(sendMessageRequest.getFrom(), sendMessageRequest.getTo())) {
             throw new NoCircularMessageAllowedException();
         }
-        messagingService.sendMessage(sendMessageRequest);
+
+        messagingProducer.produceMessageDeliveryRequest(sendMessageRequest);
         return ResponseEntity.accepted().build();
     }
 

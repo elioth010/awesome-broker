@@ -27,11 +27,11 @@ public class MessageEntity {
     @Generated(GenerationTime.INSERT)
     private Instant createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_user")
     private UserEntity fromUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "to_user")
     private UserEntity toUser;
 

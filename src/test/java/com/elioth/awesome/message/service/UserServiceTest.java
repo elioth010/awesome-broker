@@ -46,7 +46,7 @@ class UserServiceTest {
         user.setUsername(userRequest.getUsername());
         when(userRepository.findByUsername(userRequest.getUsername())).thenReturn(Optional.of(getStoredUser(user)));
         final User newUser = userService.createUser(userRequest);
-        assertThat(newUser).isNull();
+        assertThat(newUser.getUsername()).isNull();
     }
 
     private UserEntity getStoredUser(UserEntity user) {
